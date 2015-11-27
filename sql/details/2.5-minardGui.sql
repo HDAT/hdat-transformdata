@@ -3,14 +3,17 @@ CREATE TABLE "bgbCargoGUI" (
 	"carProductId"	integer PRIMARY KEY,
 	"name"			text,
 	"count"			integer,
-	"textcount"		text
+	"textcount"		text,
+	"value"	integer
 );
 
 -- Grab  carProductId, group and count them
 INSERT INTO "bgbCargoGUI"
-SELECT 	"carProductId", 
+SELECT	"carProductId",
 		"carProductId" AS name, 
-		COUNT("carProductId") 
+		COUNT("carProductId"),
+		COUNT("carProductId"),
+		SUM("value")
 FROM "bgbCargo" 
 GROUP BY "carProductId";
 
