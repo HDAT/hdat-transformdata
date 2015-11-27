@@ -1,0 +1,5 @@
+psql -d bgb -c "drop extension postgis cascade;"
+psql -d bgb -c "drop extension pgrouting cascade;"
+psql -d bgb -c "drop extension postgis_topology cascade;"
+psql -d bgb -c "drop extension fuzzystrmatch cascade;"
+psql -d bgb -c "drop extension postgis_tiger_geocoder cascade;"
