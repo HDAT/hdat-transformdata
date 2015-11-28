@@ -37,6 +37,11 @@ CREATE TABLE "bgbVoyageRouteJSON" (
 	route 	json 
 );
 
+DROP TABLE IF EXISTS "bgbVoyageRouteNoDuplicatesJSON";
+CREATE TABLE "bgbVoyageRouteNoDuplicatesJSON" (
+	route 	json 
+);
+
 DROP TABLE IF EXISTS "bgbPlaceGeoJSON";
 CREATE TABLE "bgbPlaceGeoJSON" (
 	json 	json 

@@ -1,11 +1,11 @@
 -- Add a column type with the value feature
 
-ALTER TABLE "bgbVoyageRoute" 
+ALTER TABLE "bgbVoyageRouteNoDuplicates" 
 	ADD COLUMN "type" varchar(255) DEFAULT 'Feature';
 
 -- Fill route with json (for voyages.json)
 
-INSERT INTO "bgbVoyageRouteJSON" 
+INSERT INTO "bgbVoyageRouteNoDuplicatesJSON" 
 	SELECT row_to_json(t) FROM 
 		(SELECT "type", "geometry",
 		    (
@@ -20,11 +20,11 @@ INSERT INTO "bgbVoyageRouteJSON"
 		        SELECT voynumber, first_ship_name, placeregio, inventory
 		      ) d
 		    ) AS voyageDetails
-	  	-- FROM "bgbVoyageRoute" WHERE "geometry" IS NOT NULL AND "time" IS NOT NULL ORDER BY "voyDepTimeStamp" ASC) 
-	  	FROM "bgbVoyageRoute" WHERE "geometry" IS NOT NULL AND "time" IS NOT NULL AND "voyDepTimeStamp" BETWEEN '1755-01-01 00:00:00'::timestamp AND '1765-01-10 00:00:00'::timestamp ORDER BY "voyDepTimeStamp" ASC) 
+	  	-- FROM "bgbVoyageRouteNoDuplicates" WHERE "geometry" IS NOT NULL AND "time" IS NOT NULL ORDER BY "voyDepTimeStamp" ASC) 
+	  	FROM "bgbVoyageRouteNoDuplicates" WHERE "geometry" IS NOT NULL AND "time" IS NOT NULL AND "voyDepTimeStamp" BETWEEN '1755-01-01 00:00:00'::timestamp AND '1769-01-10 00:00:00'::timestamp ORDER BY "voyDepTimeStamp" ASC) 
 	-- AS t LIMIT 100;
 	AS t;
 
 -- Remove temporary type column 
 
-ALTER TABLE "bgbVoyageRoute" DROP COLUMN "type";
+ALTER TABLE "bgbVoyageRouteNoDuplicates" DROP COLUMN "type";

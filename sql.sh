@@ -28,11 +28,14 @@ psql -d bgb -f sql/4-voyagesTime.sql
 echo "Executing the Details shellscript"
 sh sql/details.sh
 
+echo "Running DAS Duplicates"
+psql -d bgb -f sql/5-removeDuplicateDAS.sql
+
 echo "Running JSON export"
-psql -d bgb -f sql/5-exportJSON.sql
+psql -d bgb -f sql/6-exportJSON.sql
 
 echo "Export JSON"
-psql -d bgb -c "copy (SELECT array_to_json(array_agg(route::json)) from \"bgbVoyageRouteJSON\") to '$PWD/data/json/voyages.json';"
+psql -d bgb -c "copy (SELECT array_to_json(array_agg(route::json)) from \"bgbVoyageRouteNoDuplicatesJSON\") to '/Users/$USER/Desktop/hdat-transformdata/data/json/voyages.json';"
 
 echo "Export Places"
 psql -d bgb -c "copy (SELECT concat('{ \"type\": \"FeatureCollection\", \"features\":', array_to_json(array_agg(json)), NULL, '}') FROM \"bgbPlaceGeoJSON\") to '$PWD/data/json/places.json';"

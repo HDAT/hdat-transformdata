@@ -1,4 +1,4 @@
-echo "Running Details: SQL 1 Color Coding"
+echo "Running Details: SQL 1 cargo Valuta Calc"
 psql -d bgb -f $PWD/sql/details/0-cargoValutaCalc.sql
 
 echo "Running Details: SQL 1 Color Coding"
