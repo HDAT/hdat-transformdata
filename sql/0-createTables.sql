@@ -31,12 +31,20 @@ CREATE TABLE "bgbCargoMod" (
 	carinventory 	json
 );
 
--- Tables that are needed for JSON export
-DROP TABLE IF EXISTS "bgbVoyageRouteJSON";
-CREATE TABLE "bgbVoyageRouteJSON" (
-	route 	json 
+DROP TABLE IF EXISTS "bgbVoyageRouteNoDuplicates";
+CREATE TABLE "bgbVoyageRouteNoDuplicates" (
+	voynumber 			integer,
+	first_ship_name 	varchar(255),
+	placeregio	 		varchar(255),
+	inventory	 		json,
+	time				json,
+	geometry			json,
+	length				integer,
+	"VoyDASNumber"		bpchar,
+	"voyDepTimeStamp"	timestamp
 );
 
+-- Tables that are needed for JSON export
 DROP TABLE IF EXISTS "bgbVoyageRouteNoDuplicatesJSON";
 CREATE TABLE "bgbVoyageRouteNoDuplicatesJSON" (
 	route 	json 
