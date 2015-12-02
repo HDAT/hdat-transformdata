@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS "bgbCargoMinardExport";
 CREATE TABLE "bgbCargoMinardExport" AS
 	SELECT 	"carProductId", 
 			ST_AsGeoJSON("line")::json AS geometry, 
+			line AS geom, 
 			count("carProductId") AS "numberVoyages", 
 			sum("value") AS "value"
 	FROM "bgbCargoMinard" 
@@ -24,6 +25,9 @@ CREATE TABLE "bgbCargoMinardExport" AS
 
 ALTER TABLE "bgbCargoMinardExport"
 	ADD COLUMN "type" varchar(255) DEFAULT 'Feature';
+
+
+
 
 -- Fill route with json
 CREATE TEMPORARY TABLE "bgbCargoMinardJSON" (
