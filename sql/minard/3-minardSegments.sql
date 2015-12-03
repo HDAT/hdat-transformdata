@@ -25,12 +25,14 @@ BEGIN
 		RAISE NOTICE '(%)', ST_Covers(geomProduct,routingGeom);
 		IF(iterator = 1) THEN
 			RAISE NOTICE '-----------------------------------';
-			END IF;
+		END IF;
+		
 		IF(remainder = 0.5) THEN
 			SELECT geom INTO routingGeom FROM routing LIMIT 1 OFFSET floor(iterator);
 		ELSE
 			SELECT ST_Reverse(geom) INTO routingGeom FROM routing LIMIT 1 OFFSET floor(iterator);			
 		END IF;
+		
 		IF(ST_Covers(ST_SetSRID(geomProduct,4326), ST_SetSRID(ST_LineMerge(routingGeom),4326))) THEN	
 			RAISE NOTICE 'True';
 		ELSE
