@@ -27,8 +27,6 @@ ALTER TABLE "bgbCargoMinardExport"
 	ADD COLUMN "type" varchar(255) DEFAULT 'Feature';
 
 
-
-
 -- Fill route with json
 CREATE TEMPORARY TABLE "bgbCargoMinardJSON" (
 	type			varchar(255),

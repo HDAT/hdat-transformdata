@@ -3,12 +3,12 @@
 CREATE TEMPORARY TABLE "bgbCargoMinard" AS TABLE "bgbCargo";
 
 ALTER TABLE "bgbCargoMinard" 
-	ADD COLUMN "line" geometry(linestring, 4326);
+	ADD COLUMN "line" geometry(multilinestring, 4326);
 
 -- Add the existing routes from another table
 
 UPDATE "bgbCargoMinard" SET 
-	"line"	= "route"
+	"line"	= "trueTemp"
 FROM "bgbVoyageRoute"
 WHERE "voyId" = "carVoyageId";
 

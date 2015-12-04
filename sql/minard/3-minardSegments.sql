@@ -33,7 +33,7 @@ BEGIN
 			SELECT ST_Reverse(geom) INTO routingGeom FROM routing LIMIT 1 OFFSET floor(iterator);			
 		END IF;
 		
-		IF(ST_Covers(ST_SetSRID(geomProduct,4326), ST_SetSRID(ST_LineMerge(routingGeom),4326))) THEN	
+		IF(ST_Contains(ST_GeomFromText(ST_AsText(geomProduct)), ST_GeomFromText(ST_AsText(routingGeom)))) THEN	
 			RAISE NOTICE 'True';
 		ELSE
 		END IF;

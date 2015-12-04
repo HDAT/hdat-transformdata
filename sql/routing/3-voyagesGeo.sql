@@ -2,6 +2,7 @@ ALTER TABLE "bgbVoyageRoute"
 	ADD COLUMN "voyDepartureNode" 	int,
 	ADD COLUMN "voyArrivalNode" 	int,
 	ADD COLUMN "routeTemp" 			geometry(linestring, 4326),
+	ADD COLUMN "trueTemp"			geometry(multilinestring, 4326),
 	ADD COLUMN "route" 				geometry(linestring, 4326),
 	ADD COLUMN "geometry" 			json,
 	ADD COLUMN "placeregio" 		varchar(255);
@@ -61,26 +62,34 @@ WHERE "voyArrivalPlaceId" = 791;
 		
 UPDATE "bgbVoyageRoute" 
 SET 
-	"routeTemp" = 	CASE 
+
+-- Dit moet TrueTemp worden, vervolgens ST_LineMerge en een ST_SetSRID om TrueTemp > Routetemp
+	"trueTemp" = 	CASE 
 						WHEN "voyDepartureNode" IS NOT NULL OR "voyArrivalNode" IS NOT NULL THEN
 						(SELECT 
-							-- ST_asText(
-								ST_SetSRID(
-									ST_LineMerge(
-										ST_geomfromtext(
-											ST_AsText(
-												ST_CollectionExtract(
-														ST_Collect(
-															determineRoute
-														)::geometry(geometryCollection, 4326)
-												, 2)
-											)
-										)
-									)
-								,4326)
-							-- ) 
+							ST_setSRID(
+							ST_geomfromtext(
+								ST_AsText(
+									ST_CollectionExtract(
+											ST_Collect(
+												determineRoute
+											)::geometry(geometryCollection, 4326)
+									, 2)
+								)
+							),4326)
+						
 						FROM determineRoute('routingMod',"voyDepartureNode","voyArrivalNode"))
 					END;
+
+UPDATE "bgbVoyageRoute" 
+SET 
+	"routeTemp" = 	CASE 
+						WHEN "voyDepartureNode" IS NOT NULL OR "voyArrivalNode" IS NOT NULL THEN
+							ST_SetSRID(ST_LineMerge(
+									"trueTemp"
+							),4326)
+					END;
+FROM "bgbVoyageRoute";
 
 -- Make sure the directionality of the route is correct
 
@@ -97,9 +106,9 @@ ALTER TABLE "bgbVoyageRoute" DROP COLUMN "routeTemp";
 
 -- Round bgbVoyageRoute
 
--- UPDATE "bgbVoyageRoute"
--- SET
--- 	"route" = ST_SnapToGrid(route, 0.001);
+UPDATE "bgbVoyageRoute"
+SET
+	"route" = ST_SnapToGrid(route, 0.001);
 
 
 -- Transform the route to valid GeoJSON
