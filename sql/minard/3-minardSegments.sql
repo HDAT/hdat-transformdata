@@ -1,13 +1,17 @@
--- DROP FUNCTION minardSegment(integer, geometry, integer, integer);
-DROP FUNCTION minardSegment(geometry);
+DROP FUNCTION minardSegment(integer, geometry, bigint, bigint);
 
 CREATE OR REPLACE FUNCTION minardSegment(
-		-- IN carProductId 	integer,
-        IN geomProduct 			geometry(geometry, 4326)
-        -- IN numberVoyages 	integer,
-        -- IN value 			integer
+		IN carProductId 	integer,
+        IN geomProduct 		geometry(geometry, 4326),
+        IN numberVoyages 	bigint,
+        IN cargoValue 		bigint
     )
-    RETURNS TABLE (carProductIdt integer, geomt geometry(geometry, 4326), numberVoyagest integer, valuet integer) AS
+    RETURNS TABLE (
+    	cargoId integer, 
+    	cargoGeom geometry(geometry, 4326), 
+    	cargoNumVoyages bigint, 
+    	cargoValues bigint
+    ) AS
 $$
 
 DECLARE
@@ -22,10 +26,10 @@ BEGIN
 		remainder = (iterator % 1::decimal);
 		-- RAISE NOTICE 'iterator draait (%)', iterator;
 
-		RAISE NOTICE '(%)', ST_Covers(geomProduct,routingGeom);
-		IF(iterator = 1) THEN
-			RAISE NOTICE '-----------------------------------';
-		END IF;
+		-- RAISE NOTICE '(%)', ST_Covers(geomProduct,routingGeom);
+		-- IF(iterator = 1) THEN
+			-- RAISE NOTICE '-----------------------------------';
+		-- END IF;
 		
 		IF(remainder = 0.5) THEN
 			SELECT geom INTO routingGeom FROM routing LIMIT 1 OFFSET floor(iterator);
@@ -34,7 +38,12 @@ BEGIN
 		END IF;
 		
 		IF(ST_Contains(ST_GeomFromText(ST_AsText(geomProduct)), ST_GeomFromText(ST_AsText(routingGeom)))) THEN	
-			RAISE NOTICE 'True';
+		    	cargoId := carProductId ; 
+		    	cargoGeom := routingGeom ;
+		    	cargoNumVoyages := numberVoyages ;
+		    	cargoValues := cargoValue ;
+		        RETURN NEXT;
+		    
 		ELSE
 		END IF;
 

@@ -16,3 +16,5 @@ psql -d bgb -c "create extension pgrouting;"
 psql -d bgb -c "create extension postgis_topology;"
 psql -d bgb -c "create extension fuzzystrmatch;"
 psql -d bgb -c "create extension postgis_tiger_geocoder;"
+
+say 'Database init done' -v 'Good news'
