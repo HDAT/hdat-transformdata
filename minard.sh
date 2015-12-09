@@ -11,7 +11,7 @@ echo "Running Minard: 3-minardSplit.sql"
 psql -d bgb -f $PWD/sql/minard/3-minardSplit.sql
 
 echo "Running Minard Export: exportMinard.sh"
-psql -d bgb -f $PWD/sql/minard/exportMinard.sh
+sh $PWD/sql/minard/exportMinard.sh
 
 # echo "Running Minard Gui Export: exportGui.sh"
 # psql -d bgb -f $PWD/sql/minard/exportGui.sh
