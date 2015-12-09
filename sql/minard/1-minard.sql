@@ -23,26 +23,6 @@ CREATE TABLE "bgbCargoMinardExport" AS
 		GROUP BY "carProductId", "line" 
 		ORDER BY "carProductId";
 
-ALTER TABLE "bgbCargoMinardExport"
-	ADD COLUMN "type" varchar(255) DEFAULT 'Feature';
+-- ALTER TABLE "bgbCargoMinardExport"
+-- 	ADD COLUMN "type" varchar(255) DEFAULT 'Feature';
 
-
-
-
--- Fill route with json
--- CREATE TEMPORARY TABLE "bgbCargoMinardJSON" (
--- 	type			varchar(255),
--- 	carproductid	integer,
--- 	properties 		json,
--- 	geometry		json
--- );
-
--- INSERT INTO "bgbCargoMinardJSON" 
--- 		(SELECT "type", "carProductId", (SELECT row_to_json(d) FROM (SELECT "numberVoyages", "value", "carProductId") d) AS properties, "geometry" 
--- 	  	-- FROM "bgbCargoMinardExport" LIMIT 200);
--- 	  	FROM "bgbCargoMinardExport");
-
--- DROP TABLE IF EXISTS "bgbCargoMinardJSONExport";
--- CREATE TABLE "bgbCargoMinardJSONExport" (
--- 	json text
--- );

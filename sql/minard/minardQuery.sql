@@ -32,20 +32,20 @@ SELECT json_agg(g) FROM (SELECT
 	ORDER BY cargoid ) AS g;
 
 
--- Werkend!!!
-SELECT to_json(array_agg(g)) FROM (SELECT  
-			ST_AsGeoJSON(ST_Union(cargogeom))::json AS geometry,
-			(SELECT row_to_json(d) FROM (SELECT cargoid AS voyageid, voyages, cargovalues) d) AS property,
-			to_json('Feature'::text)
-	FROM (SELECT 
-			cargoid, 
-			cargogeom, 
-			sum(cargonumvoyages) AS voyages, 
-			sum(cargovalues) AS cargovalues
-		FROM "bgbCargoMinardSplit" 
-		GROUP BY cargoid, cargogeom) 
-	AS x 
-	WHERE cargoid = 1000
-	GROUP BY cargoid, voyages, cargovalues 
-	ORDER BY cargoid ) AS g;
+-- 100% werkende backup
+-- SELECT to_json(array_agg(g)) FROM (SELECT  
+-- 			ST_AsGeoJSON(ST_Union(cargogeom))::json AS geometry,
+-- 			(SELECT row_to_json(d) FROM (SELECT cargoid AS voyageid, voyages, cargovalues) d) AS property,
+-- 			to_json('Feature'::text)
+-- 	FROM (SELECT 
+-- 			cargoid, 
+-- 			cargogeom, 
+-- 			sum(cargonumvoyages) AS voyages, 
+-- 			sum(cargovalues) AS cargovalues
+-- 		FROM "bgbCargoMinardSplit" 
+-- 		GROUP BY cargoid, cargogeom) 
+-- 	AS x 
+-- 	WHERE cargoid = 1000
+-- 	GROUP BY cargoid, voyages, cargovalues 
+-- 	ORDER BY cargoid ) AS g;
 
