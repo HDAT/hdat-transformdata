@@ -8,7 +8,7 @@ psql -d bgb -c "drop schema public cascade;"
 psql -d bgb -c "create schema public;"
 
 echo "Import bgb"
-psql -d bgb -f $PWD/data/bgb.psql
+psql -d bgb -f $PWD/data/source/bgb.psql
 
 echo "1,2,3${NC}"
 psql -d bgb -c "create extension postgis;"
